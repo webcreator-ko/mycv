@@ -1,0 +1,32 @@
+
+# 注意事項
+# ・json の最後に , は必要ない
+# ・レスポンスデータが表示されないのは controller もしくは service で return  が抜けている
+# ・コメントを書かないと「Send Request」が表示されない
+
+POST http://localhost:3005/auth/signup
+Content-Type:  application/json
+
+{
+    "email": "test@gmail.com",
+    "password": "test",
+    "test": "aaa"
+}
+
+### Find User Id
+GET http://localhost:3005/auth/2
+
+### Find All Users
+http://localhost:3005/auth
+
+### Delete User Id
+DELETE http://localhost:3005/auth/1
+
+
+### Update User Id
+Patch   http://localhost:3005/auth/4
+Content-Type:  application/json
+
+{
+    "email": "b@gmail.com"
+}
