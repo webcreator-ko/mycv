@@ -4,14 +4,29 @@
 # ・レスポンスデータが表示されないのは controller もしくは service で return  が抜けている
 # ・コメントを書かないと「Send Request」が表示されない
 
+### Create a new user
 POST http://localhost:3005/auth/signup
 Content-Type:  application/json
 
 {
-    "email": "test@gmail.com",
-    "password": "test",
-    "test": "aaa"
+    "email": "email@gmail.com",
+    "password": "12345"
 }
+
+### sign in as an existing user
+POST http://localhost:3005/auth/signin
+Content-Type:  application/json
+
+{
+     "email": "email@gmail.com",
+    "password": "12345"
+}
+
+### get the currently signed in user
+Get http://localhost:3005/auth/whoami
+
+### sign out
+Post http://localhost:3005/auth/signout
 
 ### Find User Id
 GET http://localhost:3005/auth/2
@@ -30,3 +45,9 @@ Content-Type:  application/json
 {
     "email": "b@gmail.com"
 }
+
+### Set a color
+GET  http://localhost:3005/auth/colors/red
+
+### Get the color
+GET  http://localhost:3005/auth/colors

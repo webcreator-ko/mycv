@@ -1,7 +1,7 @@
 import { CallHandler, ExecutionContext, NestInterceptor, UseInterceptors } from "@nestjs/common";
 import { plainToClass } from "class-transformer";
 import { map, Observable } from "rxjs";
-import { UserDto } from "../dto/user.dto";
+import { UserDto } from "../users/dto/user.dto";
 
 // 厳密な型は宣言できないので、せめてclassである型であることを宣言する
 interface ClassConstructor {

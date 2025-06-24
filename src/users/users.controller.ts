@@ -1,19 +1,61 @@
-import { Body, ClassSerializerInterceptor, Controller, Delete, Get, NotFoundException, Param, Patch, Post, Put, Query, UseInterceptors } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, Controller, Delete, Get, NotFoundException, Param, Patch, Post, Put, Query, Session, UseGuards, UseInterceptors } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService  } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Serializer, SerializerInterceptor } from './interceptors/serialize.interceptor';
+import { Serializer, SerializerInterceptor } from '../interceptors/serialize.interceptor';
 import { UserDto } from './dto/user.dto';
+import { AuthService } from './auth.service';
+import { User } from './user.entity';
+import { CurrentUser } from './decorators/current-user.decorator';
+import { CurrentUserInterceptor } from './interceptors/current-user.interceptor';
+import { AuthGuard } from 'src/guards/auth.guard';
 
 @Controller('auth')
 // コントローラー内で共通して使えるようになる
 @Serializer(UserDto)
+// 個別にインターセプターを書く場合
+// @UseInterceptors(CurrentUserInterceptor)
 export class UsersController {
-    constructor(private userService: UsersService) {}
+    constructor(private userService: UsersService, private authService: AuthService) {}
+
+    @Get('/colors/:color')
+    setColor(@Param('color') color: string, @Session() session: any) {
+        session.color = color
+    }
+
+    @Get('/colors')
+    getColor(@Session() session:any) {
+        return session.color
+    }
+
+    // @Get('/whoami')
+    // whoAmI(@Session() session: any) {
+    //     return this.userService.findOne(session.userId)
+    // }
+
+    @Get('/whoami')
+    @UseGuards(AuthGuard)
+    whoAmI(@CurrentUser() user: User) {
+        return user
+    }
 
     @Post('/signup')
-    createUser(@Body() body: CreateUserDto) {
-       return this.userService.createUser(body.email, body.password)  
+    async createUser(@Body() body: CreateUserDto, @Session() session: any) {
+       const user = await this.authService.signup(body.email, body.password)
+       session.userId = user.id
+       return user
+    }
+
+    @Post('/signout')
+    signOut(@Session() session: any) {
+        session.userId = null
+    }
+
+    @Post('/signin')
+    async signin(@Body() body: CreateUserDto, @Session() session: any) {
+        const user = await this.authService.signin(body.email, body.password)
+        session.userId = user.id
+        return user
     }
 
     // 意味を明確にするために 全体更新＝@Put、部分更新＝@Patch を使い分ける。

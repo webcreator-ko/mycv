@@ -11,13 +11,17 @@ export class UsersService {
     }
 
     @Post('/signup')
-    createUser(email: string, password: string) {
+    create(email: string, password: string) {
         const user = this.repo.create({ email, password })
 
         return this.repo.save(user);
     }
 
     findOne(id: number) {
+        if(!id) {
+            return null
+        }
+
         // 1件だけ取得します。
         // 条件に一致するレコードが なければ null を返す。
         // 内部的には LIMIT 1 のような SQL になります。
