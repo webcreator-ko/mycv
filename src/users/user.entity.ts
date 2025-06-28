@@ -13,6 +13,9 @@ export class User {
     // レスポンスにパスワードを含めないようにする
     password: string
 
+    @Column({ default: true })
+    admin: boolean;
+
     @AfterInsert()
     logInsert() {
         console.log('Inserted User with id', this.id)
