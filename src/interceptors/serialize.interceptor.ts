@@ -9,11 +9,11 @@ interface ClassConstructor {
 }
 
 // カスタムデコレータで記述を小さくする
-export function Serializer(dto: ClassConstructor) {
-    return UseInterceptors(new SerializerInterceptor(dto));
+export function Serialize(dto: ClassConstructor) {
+    return UseInterceptors(new SerializeInterceptor(dto));
 }
 
-export class SerializerInterceptor implements NestInterceptor {
+export class SerializeInterceptor implements NestInterceptor {
     constructor (private dto: any) {}
 
     intercept(context: ExecutionContext, handler: CallHandler<any>): Observable<any> {

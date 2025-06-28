@@ -1,0 +1,14 @@
+
+### Create a new user
+POST http://localhost:3005/reports
+Content-Type:  application/json
+
+{
+    "make": "toyota",
+    "model": "corolla",
+    "year": 1980,
+    "mileage": 10000,
+    "lng": 0,
+    "lat": 0,
+    "price": 500000
+}

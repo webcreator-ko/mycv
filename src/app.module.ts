@@ -10,9 +10,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    // .env.開発環境名 というファイルから環境変数を読み込む
-    // 例：NODE_ENV=development なら .env.development を読み込む
-    // isGlobal: true により、アプリ全体どこでも ConfigService が使えるようになる
+
+    
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: `.env.${process.env.NODE_ENV}`

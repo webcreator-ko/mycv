@@ -2,7 +2,7 @@ import { Body, ClassSerializerInterceptor, Controller, Delete, Get, NotFoundExce
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService  } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Serializer, SerializerInterceptor } from '../interceptors/serialize.interceptor';
+import { Serialize, SerializeInterceptor } from '../interceptors/serialize.interceptor';
 import { UserDto } from './dto/user.dto';
 import { AuthService } from './auth.service';
 import { User } from './user.entity';
@@ -12,7 +12,7 @@ import { AuthGuard } from 'src/guards/auth.guard';
 
 @Controller('auth')
 // コントローラー内で共通して使えるようになる
-@Serializer(UserDto)
+@Serialize(UserDto)
 // 個別にインターセプターを書く場合
 // @UseInterceptors(CurrentUserInterceptor)
 export class UsersController {
@@ -73,17 +73,17 @@ export class UsersController {
     // DTOを引数として渡すことで、インターセプターを再利用可能な汎用パーツにしている。
     
     // 例えば、このような使い方ができる
-    // @UseInterceptors(new SerializerInterceptor(UserDto))
+    // @UseInterceptors(new SerializeInterceptor(UserDto))
     // // → このエンドポイントのレスポンスは「UserDto」で整形される
 
     // 他のエンドポイントで別の DTO を使いたいならこう書けます
-    // @UseInterceptors(new SerializerInterceptor(AdminUserDto))
+    // @UseInterceptors(new SerializeInterceptor(AdminUserDto))
     // インターセプターを汎用化して、任意の DTO を注入できる構成になっている、ということです。
-    ///  @UseInterceptors(new SerializerInterceptor(UserDto))
+    ///  @UseInterceptors(new SerializeInterceptor(UserDto))
 
 
   // 個別で使用する
-  //  @Serializer(UserDto)
+  //  @Serialize(UserDto)
    @Get('/:id')
    async findUser(@Param('id') id:string) {
     const user =  await this.userService.findOne(parseInt(id))
