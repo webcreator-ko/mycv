@@ -4,23 +4,26 @@ POST http://localhost:3005/reports
 Content-Type:  application/json
 
 {
-    "make": "toyota",
-    "model": "corolla",
-    "year": 1980,
-    "mileage": 10000,
-    "lng": 0,
-    "lat": 0,
-    "price": 500000
+    "make": "ford",
+    "model": "mustang",
+    "year": 1982,
+    "mileage": 50000,
+    "lng": 45,
+    "lat": 45,
+    "price": 20000
 }
 
+### Get
+GET http://localhost:3005/reports
+
 ### Approve an exiting report
-PATCH http://localhost:3005/reports/8
+PATCH http://localhost:3005/reports/10
 Content-Type:  application/json
 
 {
-    "approved": false
+    "approved": true
 }
 
 
 ### Get an estimate for an existing vehicle
-Get http://localhost:3005/reports?make=toyota&model=colla&lng=0&lat=0&year=1980&mileage=100
+Get http://localhost:3005/reports?make=ford&model=mustang&lng=45&lat=45&year=1981&mileage=50000
